@@ -1,18 +1,23 @@
 /* eslint-disable prettier/prettier */
-import React,{useState} from 'react';
+import React, {useState} from 'react';
 import {StyleSheet, Text, View, TextInput} from 'react-native';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 
 export default function AddBirthday() {
-  const [isDatePicketVisible, setIsDatePicketVisible] = useState(true);
+  const [isDatePicketVisible, setIsDatePicketVisible] = useState(false);
 
-  const hideDatePicker=()=>{
+  const hideDatePicker = () => {
     setIsDatePicketVisible(false);
-  }
+  };
 
-  const handlerConfirm=(date)=>{
-  console.log(date);
-  }
+  const handlerConfirm = date => {
+    console.log(date);
+    hideDatePicker();
+  };
+
+  const showDatePicker = () => {
+    setIsDatePicketVisible(true);
+  };
   return (
     <>
       <View style={styles.container}>
@@ -26,12 +31,18 @@ export default function AddBirthday() {
           placeholder="Apellido"
           placeholderTextColor="#969696"
         />
+        <View style={[styles.textInput, styles.datePicker]}>
+          <Text style={styles.textDate} onPress={showDatePicker}>
+            Fecha Nacimiento
+          </Text>
+        </View>
       </View>
-      <DateTimePickerModal 
-      isVisible={isDatePicketVisible}
-      mode="date"
-      onConfirm={handlerConfirm}
-      onCancel={hideDatePicker}
+
+      <DateTimePickerModal
+        isVisible={isDatePicketVisible}
+        mode="date"
+        onConfirm={handlerConfirm}
+        onCancel={hideDatePicker}
       />
     </>
   );
@@ -55,5 +66,12 @@ const styles = StyleSheet.create({
     fontSize: 18,
     borderWidth: 1,
     borderColor: '#1e3040',
+  },
+  datePicker: {
+    justifyContent: 'center',
+  },
+  textDate: {
+    color: '#969696',
+    fontSize: 18,
   },
 });
