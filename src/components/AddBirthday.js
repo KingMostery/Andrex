@@ -1,13 +1,19 @@
 /* eslint-disable prettier/prettier */
+
 import React, {useState} from 'react';
-import {StyleSheet, Text, View, TextInput} from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  View,
+  TextInput,
+  TouchableOpacity,
+} from 'react-native';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import moment from 'moment';
 
 export default function AddBirthday() {
   const [formData, setFormData] = useState({});
   const [isDatePicketVisible, setIsDatePicketVisible] = useState(false);
-  console.log(formData);
 
   const hideDatePicker = () => {
     setIsDatePicketVisible(false);
@@ -25,6 +31,14 @@ export default function AddBirthday() {
   const showDatePicker = () => {
     setIsDatePicketVisible(true);
   };
+
+  const onChange = (e, type) => {
+    setFormData({...formData, [type]: e.nativeEvent.text});
+  };
+
+  const onSubmit = () => {
+    console.log(formData);
+  };
   return (
     <>
       <View style={styles.container}>
@@ -32,19 +46,30 @@ export default function AddBirthday() {
           style={styles.textInput}
           placeholder="Nombre"
           placeholderTextColor="#969696"
+          onChange={e => onChange(e, 'name')}
         />
         <TextInput
           style={styles.textInput}
           placeholder="Apellido"
           placeholderTextColor="#969696"
+          onChange={e => onChange(e, 'lastname')}
         />
         <View style={[styles.textInput, styles.datePicker]}>
-          <Text style={styles.textDate} onPress={showDatePicker}>
+          <Text
+            // eslint-disable-next-line react-native/no-inline-styles
+            style={{
+              color: formData.dateBirth ? '#fff' : '#969696',
+              fontSize: 18,
+            }}
+            onPress={showDatePicker}>
             {formData.dateBirth
               ? moment(formData.dateBirth).format('LL')
               : 'Fecha de Nacimiento'}
           </Text>
         </View>
+        <TouchableOpacity onPress={onSubmit}>
+          <Text style={styles.viewCreateBirthday}>Crear cumpleaños</Text>
+        </TouchableOpacity>
       </View>
 
       <DateTimePickerModal
@@ -82,5 +107,14 @@ const styles = StyleSheet.create({
   textDate: {
     color: '#969696',
     fontSize: 18,
+  },
+  viewCreateBirthday: {
+    backgroundColor: '#e38e15',
+    borderRadius: 50,
+    paddingVertical: 10,
+    paddingHorizontal: 30,
+    fontSize: 16,
+    textAlign: 'center',
+    color: '#fff',
   },
 });
