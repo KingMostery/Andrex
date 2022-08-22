@@ -115,7 +115,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     borderRadius: 50,
     fontSize: 18,
-    borderWidth: 1,
+    borderWidth: 2,
     borderColor: '#1e3040',
   },
   bntInit: {

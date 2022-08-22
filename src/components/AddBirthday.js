@@ -14,6 +14,7 @@ import moment from 'moment';
 export default function AddBirthday() {
   const [formData, setFormData] = useState({});
   const [isDatePicketVisible, setIsDatePicketVisible] = useState(false);
+  const [formError, setFormError] = useState({});
 
   const hideDatePicker = () => {
     setIsDatePicketVisible(false);
@@ -37,24 +38,43 @@ export default function AddBirthday() {
   };
 
   const onSubmit = () => {
-    console.log(formData);
+    let errors = {};
+    if (!formData.name || !formData.lastname || !formData.dateBirth) {
+      if (!formData.name) errors.name = true;
+      if (!formData.lastname) errors.lastname = true;
+      if (!formData.dateBirth) errors.dateBirth = true;
+    } else {
+      console.log('ok');
+    }
+    setFormError(errors);
   };
   return (
     <>
       <View style={styles.container}>
         <TextInput
-          style={styles.textInput}
+          style={[
+            styles.textInput,
+            formError.name && {borderColor: '#e38e15', borderWidth: 2},
+          ]}
           placeholder="Nombre"
           placeholderTextColor="#969696"
           onChange={e => onChange(e, 'name')}
         />
         <TextInput
-          style={styles.textInput}
+          style={[
+            styles.textInput,
+            formError.lastname && {borderColor: '#e38e15', borderWidth: 2},
+          ]}
           placeholder="Apellido"
           placeholderTextColor="#969696"
           onChange={e => onChange(e, 'lastname')}
         />
-        <View style={[styles.textInput, styles.datePicker]}>
+        <View
+          style={[
+            styles.textInput,
+            styles.datePicker,
+            formError.dateBirth && {borderColor: '#e38e15', borderWidth: 2},
+          ]}>
           <Text
             // eslint-disable-next-line react-native/no-inline-styles
             style={{
