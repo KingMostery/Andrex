@@ -28,14 +28,12 @@ export default function App() {
       setUser(response);
     });
   }, []);
-
   if (user === undefined) return null;
-
   return (
     <>
       <StatusBar barStyle="light-content" />
       <SafeAreaView style={styles.background}>
-        {user ? <ListBirthday /> : <Auth />}
+        {user ? <ListBirthday user={user} /> : <Auth />}
       </SafeAreaView>
     </>
   );
