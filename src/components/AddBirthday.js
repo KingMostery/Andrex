@@ -1,6 +1,7 @@
 /* eslint-disable prettier/prettier */
 
 import React, {useState} from 'react';
+
 import {
   StyleSheet,
   Text,
@@ -10,7 +11,9 @@ import {
 } from 'react-native';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import moment from 'moment';
-
+import firebase from '../utils/firebase';
+import 'firebase/firestore';
+const db = firebase.firestore(firebase);
 export default function AddBirthday() {
   const [formData, setFormData] = useState({});
   const [isDatePicketVisible, setIsDatePicketVisible] = useState(false);
@@ -44,7 +47,18 @@ export default function AddBirthday() {
       if (!formData.lastname) errors.lastname = true;
       if (!formData.dateBirth) errors.dateBirth = true;
     } else {
-      console.log('ok');
+      const data = formData;
+      data.dateBirth.setYear(0);
+      console.log('prueba',data);
+      db.collection("cumples")
+        .add(data)
+        .then(() => {
+          console.log('ok');
+        })
+        .catch(() => {
+          setFormError({name: true, lastname: true, dateBirth: true});
+          console.log('errros',data);
+        });
     }
     setFormError(errors);
   };

@@ -1,16 +1,26 @@
 /* eslint-disable curly */
 /* eslint-disable no-unused-vars */
 /* eslint-disable prettier/prettier */
-import React, { useState, useEffect } from 'react';
-
-import { SafeAreaView, Text, View, StyleSheet, StatusBar, Button } from 'react-native';
+import React, {useState, useEffect} from 'react';
+import {decode, encode} from 'base-64';
+import {
+  SafeAreaView,
+  Text,
+  View,
+  StyleSheet,
+  StatusBar,
+  Button,
+} from 'react-native';
 
 import 'firebase/auth';
 import Auth from './src/components/Auth';
 import firebase from './src/utils/firebase';
 import ListBirthday from './src/components/ListBirthday';
-export default function App() {
 
+if (!global.btoa) global.btoa = encode;
+if (!global.atob) global.atob = decode;
+
+export default function App() {
   const [user, setUser] = useState(undefined);
 
   useEffect(() => {
@@ -20,7 +30,6 @@ export default function App() {
   }, []);
 
   if (user === undefined) return null;
-
 
   return (
     <>
@@ -32,15 +41,9 @@ export default function App() {
   );
 }
 
-
-
 const styles = StyleSheet.create({
   background: {
     backgroundColor: '#15242b',
     height: '100%',
   },
-
-
 });
-
-
