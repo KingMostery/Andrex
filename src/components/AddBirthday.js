@@ -6,17 +6,20 @@ import {
   View,
   TextInput,
   TouchableOpacity,
+  Image,
 } from 'react-native';
 import firebase from '../utils/firebase';
 import 'firebase/firestore';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import moment from 'moment';
 
-firebase.firestore().settings({experimentalForceLongPolling: true, merge: true });
+firebase
+  .firestore()
+  .settings({experimentalForceLongPolling: true, merge: true});
 const db = firebase.firestore(firebase);
 
 export default function AddBirthday(props) {
-  const {user, setShowList,setReloadData} = props;
+  const {user, setShowList, setReloadData} = props;
   const [formData, setFormData] = useState({});
   const [isDatePicketVisible, setIsDatePicketVisible] = useState(false);
   const [formError, setFormError] = useState({});
@@ -56,7 +59,6 @@ export default function AddBirthday(props) {
         .then(() => {
           setReloadData(true);
           setShowList(true);
-
         })
         .catch(() => {
           setFormError({name: true, lastname: true, dateBirth: true});
@@ -67,7 +69,9 @@ export default function AddBirthday(props) {
   };
   return (
     <>
+    <Image style={styles.logo} source={require('../assets/logo.png')} /> 
       <View style={styles.container}>
+      
         <TextInput
           style={[
             styles.textInput,
@@ -123,8 +127,9 @@ const styles = StyleSheet.create({
   container: {
     height: '100%',
     width: '100%',
-    justifyContent: 'center',
+    justifyContent:"flex-start",
     alignItems: 'center',
+    
   },
   textInput: {
     height: 50,
@@ -153,5 +158,11 @@ const styles = StyleSheet.create({
     fontSize: 16,
     textAlign: 'center',
     color: '#fff',
+  },
+  logo: {
+    width: '80%',
+    height: 240,
+    marginTop: 10,
+    
   },
 });
