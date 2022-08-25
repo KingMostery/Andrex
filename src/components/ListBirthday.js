@@ -1,7 +1,7 @@
 /* eslint-disable prettier/prettier */
 import Birthday from './Birthday';
 import React, {useState, useEffect} from 'react';
-import {StyleSheet, Text, View, ScrollView} from 'react-native';
+import {StyleSheet, Text, View, ScrollView, Alert,} from 'react-native';
 import AddBirthday from './AddBirthday';
 import ActionBar from './ActionBar';
 import firebase from '../utils/firebase';
@@ -68,10 +68,32 @@ export default function ListBirthday(props) {
     });
     setBirthday(birthdayTempArray);
     setPasatBirthday(pasatBirthdayTempArray);
-    console.log('que monda si apara dos veces');
-    console.log(pasatBirthdayTempArray);
   };
   
+  const delateBirthday = (birthday) => {
+    Alert.alert(
+      'Eliminar Cumpleaños',
+      `¿Estas seguro de eliminar el cumpleaños de ${birthday.name} ${birthday.lastname} ?`,
+      [
+        {
+          text:'Cancelar',
+          style:'cancel',
+        },
+        {
+          text:'Eliminar',
+          onPress:()=>{
+            db.collection(user.uid)
+            .doc(birthday.id)
+            .delete().then(() =>{
+              setReloadData();
+            });
+          },
+        },
+      ],
+      {cancelable:false},
+    );
+  };
+
   return (
     <View style={styles.container}>
       {showList ? (
@@ -79,11 +101,11 @@ export default function ListBirthday(props) {
 
 
         {birthday.map((item,index)=>(
-          <Birthday key={index} birthday={item}/>
+          <Birthday key={index} birthday={item} delateBirthday={delateBirthday} />
         ))}
 
         {pasatBirthday.map((item,index)=>(
-          <Birthday key={index} birthday={item}/>
+          <Birthday key={index} birthday={item} delateBirthday={delateBirthday} />
         ))}
 
        </ScrollView>

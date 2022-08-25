@@ -41,7 +41,8 @@ export default function App() {
 
 const styles = StyleSheet.create({
   background: {
-    backgroundColor: '#15242b',
+    /*  backgroundColor: '#15242b', */
+    backgroundColor: '#122232',
     height: '100%',
   },
 });
