@@ -4,7 +4,6 @@ import React, {useState, useEffect} from 'react';
 import {StyleSheet, Text, View, ScrollView} from 'react-native';
 import AddBirthday from './AddBirthday';
 import ActionBar from './ActionBar';
-
 import firebase from '../utils/firebase';
 import 'firebase/firestore';
 import moment from 'moment';
@@ -17,6 +16,7 @@ export default function ListBirthday(props) {
   const [showList, setShowList] = useState(true);
   const [birthday, setBirthday] = useState([]);
   const [pasatBirthday, setPasatBirthday] = useState([]);
+  const [reloadData, setReloadData] = useState(false);
 
  
   useEffect(() => {
@@ -34,7 +34,8 @@ export default function ListBirthday(props) {
       });
       formatData(itemsArray);
     });
-  }, []);
+    setReloadData(false);
+  }, [reloadData]);
 
 
 
@@ -87,7 +88,7 @@ export default function ListBirthday(props) {
 
        </ScrollView>
       ) : (
-        <AddBirthday user={user} setShowList={setShowList} />
+        <AddBirthday user={user} setShowList={setShowList} setReloadData={setReloadData}/>
       )}
       <ActionBar showList={showList} setShowList={setShowList} />
     </View>
