@@ -12,6 +12,7 @@ import {
   Button,
   TouchableOpacity,
   TextInput,
+  Alert,
 } from 'react-native';
 
 export default function RegisterForm(props) {
@@ -22,15 +23,48 @@ export default function RegisterForm(props) {
   const register = () => {
     let errors = {};
     if (!formData.email || !formData.password || !formData.repeatPassword) {
-      if (!formData.email) errors.email = true;
-      if (!formData.password) errors.password = true;
-      if (!formData.repeatPassword) errors.repeatPassword = true;
+      if (!formData.email) {errors.email = true;}
+      if (!formData.password) { errors.password = true;}
+      if (!formData.repeatPassword) {errors.repeatPassword = true;}
     } else if (!validateEmail(formData.email)) {
+      Alert.alert(
+        'Error',
+        'Por favor, ingrese un correo electronico valido para continuar.',
+        [
+          {
+            text: 'OK',
+
+            style: 'cancel',
+          },
+        ],
+      );
       errors.email = true;
     } else if (formData.password !== formData.repeatPassword) {
+      Alert.alert(
+        'Error',
+        'Por favor, asegurese que la contraseña y la confimacón de la contraseña sean iguales.',
+        [
+          {
+            text: 'OK',
+
+            style: 'cancel',
+          },
+        ],
+      );
       errors.password = true;
       errors.repeatPassword = true;
     } else if (formData.password.length < 6) {
+      Alert.alert(
+        'Error',
+        'Ingrese una contraseña valida, esta debe tener numero y letras y debe ser mayor a 6 caracteres. Intente de nuevo. ',
+        [
+          {
+            text: 'OK',
+
+            style: 'cancel',
+          },
+        ],
+      );
       errors.password = true;
       errors.repeatPassword = true;
     } else {
@@ -130,4 +164,3 @@ const styles = StyleSheet.create({
     borderWidth: 2,
   },
 });
-
